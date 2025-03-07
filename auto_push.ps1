@@ -10,7 +10,7 @@ function Push-Auto
         git add .;
         git commit -m "feat: automation daily update";
         git push -u origin master;
-        git push -u gitub master;
+        git push -u github master;
         if ($time -eq 0)
         {
             Write-Host "push success, Waiting for seconds to clear the terminal..." -ForegroundColor Green
