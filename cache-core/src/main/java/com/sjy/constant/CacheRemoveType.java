@@ -15,11 +15,11 @@ public enum CacheRemoveType {
         this.desc = desc;
     }
 
-    public String getCode() {
+    public String code() {
         return code;
     }
 
-    public String getDesc() {
+    public String desc() {
         return desc;
     }
 

@@ -1,14 +1,27 @@
 package com.sjy.base;
 
 import com.github.houbb.heaven.util.common.ArgUtil;
-import com.sjy.api.ICache;
-import com.sjy.api.ICacheEvict;
+import com.sjy.api.*;
 import com.sjy.core.Cache;
+import com.sjy.support.evict.CacheEvicts;
+import com.sjy.support.listener.remove.CacheRemoveListeners;
+import com.sjy.support.load.CacheLoads;
+import com.sjy.support.persist.CachePersists;
+import com.sjy.support.proxy.CacheProxy;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * 缓存引导类
+ * @since: 0.0.1
+ * @author: 智慧的苏苏
+ * @date: 2025/3/9 下午3:17
+*/
 public final class CacheBs<K, V> {
+    private List<ICacheSlowListener> slowListeners;
+
     private CacheBs() {
     }
 
@@ -30,6 +43,11 @@ public final class CacheBs<K, V> {
 
     private ICacheEvict<K, V> evict = CacheEvicts.fifo();
 
+    private final List<ICacheRemoveListener<K, V>> removeListeners = CacheRemoveListeners.defaults();
+
+    private ICacheLoad<K, V> load = CacheLoads.none();
+
+    private ICachePersist<K, V> persist = CachePersists.none();
 
     public ICache<K, V> build() {
         Cache<K, V> cache = new Cache<>();

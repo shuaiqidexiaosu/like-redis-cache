@@ -6,7 +6,7 @@ public interface ICacheEvict<K, V> {
      * @param context
      * @return
      */
-    ICacheContext<K, V> evict(final ICacheEvictContext<K, V> context);
+    ICacheEntry<K, V> evict(final ICacheEvictContext<K, V> context);
 
 
     /**

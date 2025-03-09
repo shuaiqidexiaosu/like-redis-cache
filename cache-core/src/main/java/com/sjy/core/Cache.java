@@ -1,6 +1,8 @@
 package com.sjy.core;
 
 import com.sjy.api.*;
+import com.sjy.support.expire.CacheExpire;
+import com.sjy.support.persist.InnerCachePersist;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Cache<K, V> implements ICache<K, V> {
      * @since 0.0.2
      */
     private int sizeLimit;
+    private List<ICacheSlowListener> slowListeners;
 
     public Cache<K, V> sizeLimit(int sizeLimit) {
         this.sizeLimit = sizeLimit;
@@ -75,8 +78,14 @@ public class Cache<K, V> implements ICache<K, V> {
 
     @Override
     public List<ICacheSlowListener> slowListeners() {
-        return List.of();
+        return slowListeners;
     }
+
+    public Cache<K, V> slowListeners(List<ICacheSlowListener> slowListeners) {
+        this.slowListeners = slowListeners;
+        return this;
+    }
+
 
     @Override
     public ICacheLoad<K, V> load() {
@@ -164,6 +173,16 @@ public class Cache<K, V> implements ICache<K, V> {
         return persist;
     }
 
+    public void persist(ICachePersist<K, V> persist) {
+        this.persist = persist;
+    }
+
+    private ICacheLoad<K, V> load;
+
+    public Cache<K, V> load(ICacheLoad<K, V> load) {
+        this.load = load;
+        return this;
+    }
 
     /**
      * 获取驱除策略
@@ -174,6 +193,14 @@ public class Cache<K, V> implements ICache<K, V> {
     @Override
     public ICacheEvict<K, V> evict() {
         return this.evict;
+    }
+
+    public void init() {
+        this.expire = new CacheExpire<>(this);
+        this.load.load(this);
+        if (this.persist != null) {
+            new InnerCachePersist<>(this, persist);
+        }
     }
 }
 

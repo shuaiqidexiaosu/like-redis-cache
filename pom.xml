@@ -24,6 +24,7 @@
         <log-integration.version>1.1.8</log-integration.version>
         <fastjson.version>1.2.70</fastjson.version>
         <junit.version>4.12</junit.version>
+        <cglib.version>3.1</cglib.version>
     </properties>
 
 
@@ -48,11 +49,16 @@
             <artifactId>log-integration</artifactId>
             <version>${log-integration.version}</version>
         </dependency>
-         <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
